@@ -20,10 +20,14 @@ public class PlayerController : NetworkBehaviour {
             return;
         }
         float x = Input.GetAxis("Horizontal") * Time.deltaTime* 150f;
-        float z = Input.GetAxis("Vertical") * Time.deltaTime * 3;
+        float z = Input.GetAxis("Vertical") * Time.deltaTime * 500.0f;
+
+        Rigidbody rigbody = gameObject.GetComponent<Rigidbody>();
+
+        rigbody.AddForce(transform.forward * z);
 
         transform.Rotate(0, x, 0);
-        transform.Translate(0, 0, z);
+        //transform.Translate(0, 0, z);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
