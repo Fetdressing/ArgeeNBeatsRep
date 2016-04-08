@@ -9,11 +9,16 @@ public class SoundInput : NetworkBehaviour
     const int spectrumSize = 8192;
     const float binSize = 44100 / (spectrumSize * 2.0f);
     float[] spectrum = new float[spectrumSize];
-    [SyncVar (hook = "OnFrequencyChange")]float frequency = 0;
+    float frequency = 0;
     public float realFrequency;
+    float previousFrequency = 0;
 
     // Use this for initialization
     void Start () {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         audio = GetComponent<AudioSource>();
         audio.clip = Microphone.Start("Built-in Microphone", true, 5, 44100);
         //audio.Play();
@@ -54,6 +59,11 @@ public class SoundInput : NetworkBehaviour
         frequency = Mathf.Min((((float)highestBand * binSize)/1000.0f), 1.0f); 
         //frequency = ((float)highestBand * binSize);
         realFrequency = frequency;
+        if (previousFrequency != frequency)
+        {
+            CmdUpdateFrequency(frequency);
+        }
+        previousFrequency = frequency;
     }
 
     float GetCurrentFrequency()
@@ -61,8 +71,14 @@ public class SoundInput : NetworkBehaviour
         return frequency;
     }
 
-    void OnFrequencyChange(float newFrequency)
+    [Command]
+    void CmdUpdateFrequency(float newFrequency)
     {
+        if (!isLocalPlayer)
+        {
+            Debug.Log("Freq change");
+        }
+
         frequency = newFrequency;
         realFrequency = newFrequency;
     }
