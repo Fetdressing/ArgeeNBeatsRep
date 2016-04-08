@@ -121,9 +121,10 @@ AudioSource:
   m_GameObject: {fileID: 182970}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: b66edcf9aceaa2841b6ae926cdaa1bf0,
+    type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -175,7 +176,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -213,7 +214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio: {fileID: 0}
   realFrequency: 0
-  test: 0
 --- !u!114 &11442550
 MonoBehaviour:
   m_ObjectHideFlags: 1
