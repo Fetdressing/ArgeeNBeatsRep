@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: de880e2801811ac4daed5cd657e9c024
-timeCreated: 1460137553
+guid: 849422184f23e234d86971ac835c6cba
+timeCreated: 1460139249
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: SphereBuilding
+    4300000: UFOShip
     6400000: //RootNode
   materials:
     importMaterials: 1
@@ -35,7 +35,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 10
+    globalScale: 200
     meshCompression: 0
     addColliders: 1
     importBlendShapes: 1
