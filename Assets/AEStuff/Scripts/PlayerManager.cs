@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour {
 
-    static List<GameObject> playerList = new List<GameObject>();
+    public static List<GameObject> playerList = new List<GameObject>();
     public int numPlayers = 0;
 
     void Start()

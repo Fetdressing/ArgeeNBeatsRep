@@ -66,7 +66,7 @@ public class SoundInput : NetworkBehaviour
         previousFrequency = frequency;
     }
 
-    float GetCurrentFrequency()
+    public float GetCurrentFrequency()
     {
         return frequency;
     }
