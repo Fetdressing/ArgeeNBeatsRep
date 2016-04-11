@@ -4,52 +4,95 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour {
 
-    public GameObject bulletPrefab;
-    public Transform bulletSpawn;
+    public float forceMulti;
+    public float jumpForce;
+    public float jumpVectorCheck;
+    public float downAccel = 0.75f;
+    private Vector3 velocity = Vector3.zero;
+    private Rigidbody trans;
+    private bool isTimeToJump = false;
+    public float jumpTimer = 5f;
+    private float timeJumped = 0;
+    private LayerMask playerLayer;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        // If we're not local
+    public float turnSpeedMultiplier = 1.3f;
+
+    // Use this for initialization
+    void Start()
+    {
         if (!isLocalPlayer)
         {
             return;
         }
-        float x = Input.GetAxis("Horizontal") * Time.deltaTime* 150f;
-        float z = Input.GetAxis("Vertical") * Time.deltaTime * 500.0f;
+        playerLayer = ~(1 << LayerMask.NameToLayer("Player")); // ignore collisions with layerX
+        trans = this.GetComponent<Rigidbody>();
+    }
 
-        Rigidbody rigbody = gameObject.GetComponent<Rigidbody>();
-
-        rigbody.AddForce(transform.forward * z);
-
-        transform.Rotate(0, x, 0);
-        //transform.Translate(0, 0, z);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+    // Update is called once per frame
+    void Update()
+    {
+        if (!isLocalPlayer)
         {
-            CmdFire();
+            return;
+        }
+        Jump();
+        Move();
+        Turn();
+
+
+
+    }
+
+    private void Jump()
+    {
+        ///JUMP
+        Vector3 downVector = transform.TransformDirection(Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, downVector, out hit, jumpVectorCheck, playerLayer))
+        {
+            trans.drag = 2;
+            //Debug.Log(hit.collider.ToString());
+            //if (Physics.Raycast(transform.position, downVector, jumpVectorCheck))
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                trans.velocity = new Vector3(trans.velocity.x, 0, trans.velocity.z);
+                //trans.position = new Vector3(trans.position.x, tran, trans.position.z);
+                trans.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+            }
+        }
+        else
+        {
+            trans.drag = 0.75f;
         }
     }
 
-    // Needs to have Cmd infront to be recognized
-    [Command]
-    void CmdFire()
+    private void Turn()
     {
-        // Create bullet
-        GameObject bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        float dx = Input.GetAxis("Mouse X");
+        dx *= turnSpeedMultiplier;
+        transform.RotateAround(transform.root.position, new Vector3(0, 1, 0), dx);
+    }
 
-        // Add velocity
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6.0f;
+    private void Move()
+    {
+        Vector3 totalVelocity = new Vector3(0, /*trans.velocity.y*/0, 0);
+        if (Input.GetKey(KeyCode.W))
+        {
+            totalVelocity += this.transform.forward * forceMulti;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            totalVelocity += this.transform.right * forceMulti;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            totalVelocity += -this.transform.right * forceMulti;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            totalVelocity += -this.transform.forward * forceMulti;
+        }
 
-        // Spawn on clients
-        NetworkServer.Spawn(bullet);
-
-        // Destroy after two seconds
-        Destroy(bullet, 2.0f);
-
+        trans.AddForce(totalVelocity * Time.deltaTime);
     }
 }
