@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class ThirdPersonCamera : MonoBehaviour {
+public class ThirdPersonCamera : MonoBehaviour
+{
 
     public Vector2 yMaxMin;
-    private float rotationX;
     private float rotationY;
 
     public float turnSpeedMultiplier = 1.0f;
     // Use this for initialization
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -30,5 +32,10 @@ public class ThirdPersonCamera : MonoBehaviour {
         Quaternion quater = Quaternion.AngleAxis(rotationY, transform.right);
         //transform.Rotate(new Vector3(dy, 0, 0));
         transform.rotation = quater * transform.root.rotation;
+    }
+
+    public void DisableCamera()
+    {
+        gameObject.SetActive(false);
     }
 }

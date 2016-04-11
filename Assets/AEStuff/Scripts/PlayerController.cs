@@ -22,6 +22,7 @@ public class PlayerController : NetworkBehaviour {
     {
         if (!isLocalPlayer)
         {
+            gameObject.GetComponentInChildren<ThirdPersonCamera>().DisableCamera();
             return;
         }
         playerLayer = ~(1 << LayerMask.NameToLayer("Player")); // ignore collisions with layerX
