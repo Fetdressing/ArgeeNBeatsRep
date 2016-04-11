@@ -40,6 +40,19 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+    void OnTriggerEnter(Collider collision)
+    {
+        // If we are colliding with a checkpoint
+        if (collision.gameObject.tag == "Checkpoint")
+        {
+            // Make all players update theire spawn point
+            foreach (GameObject p in playerList)
+            {
+                GameObject.FindGameObjectWithTag("SpawnLocation").transform.position = collision.gameObject.transform.position;
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update () {
 

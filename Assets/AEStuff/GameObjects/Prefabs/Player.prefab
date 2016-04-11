@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5266309c0592d0f42bd084a3fb17bdbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceMulti: 4000
+  forceMulti: 2000
   jumpForce: 10
   jumpVectorCheck: 2
   downAccel: 0.75
@@ -372,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  spawnPosition: {x: 0, y: 0, z: 0}
   currentHealth: 100
   destroyOnDeath: 0
 --- !u!114 &11487896
@@ -460,7 +461,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: forceMulti
-      value: 4000
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: jumpForce
